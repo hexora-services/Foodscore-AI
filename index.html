@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#09131b">
+  <meta name="description" content="FoodScope AI — შეამოწმე სურსათის კვებითი პროფილი შტრიხკოდით.">
+  <meta name="color-scheme" content="dark">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>FoodScope AI • Food intelligence</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="logo" href="#" aria-label="FoodScope AI home">
+        <span class="logo-mark"><svg viewBox="0 0 30 30" fill="none"><path d="M4 10V6a2 2 0 0 1 2-2h4M20 4h4a2 2 0 0 1 2 2v4M26 20v4a2 2 0 0 1-2 2h-4M10 26H6a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M9 11v8m4-8v8m4-8v8m4-8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <span class="logo-copy">FoodScope <strong>AI</strong><small>KNOW YOUR FOOD</small></span>
+      </a>
+      <div class="top-actions">
+        <label class="sr-only" for="language">Language</label>
+        <select id="language" aria-label="Language"><option value="ka">🇬🇪 KA</option><option value="en">🇬🇧 EN</option><option value="ru">🇷🇺 RU</option></select>
+        <span class="online-dot" id="onlineDot" title="Connection status"></span>
+      </div>
+    </header>
+
+    <main>
+      <section id="homeView" class="view active" aria-labelledby="heroTitle">
+        <div class="hero-head"><span class="eyebrow"><span class="tiny-star">✦</span> <span data-i18n="eyebrow">უფრო ნათელი არჩევანი</span></span><span class="version">BETA 0.1</span></div>
+        <h1 id="heroTitle" data-i18n-html="heroTitle">იცოდე, <span>რას ირჩევ.</span></h1>
+        <p class="hero-sub" data-i18n="heroSub">ერთი სკანირება — პროდუქტის კვებითი მონაცემები, მარტივი ახსნა და შემადგენლობა.</p>
+        <div class="scanner-card">
+          <div class="scanner-pattern" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="scan-corner tl"></div><div class="scan-corner tr"></div><div class="scan-corner bl"></div><div class="scan-corner br"></div>
+          <div class="scan-orb" aria-hidden="true"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M8 14V9a2 2 0 0 1 2-2h5M25 7h5a2 2 0 0 1 2 2v5M32 26v5a2 2 0 0 1-2 2h-5M15 33h-5a2 2 0 0 1-2-2v-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M13 15v10m5-10v10m4-10v10m5-10v10" stroke="currentColor" stroke-width="2"/></svg></div>
+          <h2 data-i18n="scanTitle">შტრიხკოდის სკანირება</h2>
+          <p data-i18n="scanSub">მიუშვირე კამერა შეფუთვის შტრიხკოდს</p>
+          <button id="scanBtn" class="primary-btn" type="button"><span class="button-icon">▣</span><span data-i18n="scanBtn">კამერის გახსნა</span><span class="arrow-icon">↗</span></button>
+          <div class="scanner-secondary"><button id="photoBtn" class="text-btn" type="button"><span>▧</span> <span data-i18n="photo">ფოტოდან ამოცნობა</span></button><input type="file" id="photoInput" hidden accept="image/*"></div>
+        </div>
+        <div class="manual-panel">
+          <div class="panel-line"><span class="circle-icon">⌨</span><div><strong data-i18n="manualTitle">შეიყვანე კოდი ხელით</strong><small data-i18n="manualDesc">თუ კამერა არ მუშაობს</small></div></div>
+          <form id="barcodeForm" class="barcode-form"><input id="barcodeInput" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9 ]*" maxlength="20" placeholder="EAN / UPC · 0000000000000" aria-label="Barcode"><button type="submit" aria-label="Search barcode">→</button></form>
+        </div>
+        <div class="features-row"><span><b>◎</b> <span data-i18n="feature1">Nutri-Score</span></span><span><b>◈</b> <span data-i18n="feature2">ალერგენები</span></span><span><b>◉</b> <span data-i18n="feature3">NOVA</span></span></div>
+        <section class="history-section"><div class="section-title"><h2 data-i18n="recent">ბოლო სკანირებები</h2><button type="button" class="link-btn" id="allHistoryBtn" data-i18n="seeAll">ყველა →</button></div><div id="recentList" class="recent-list"></div></section>
+        <div class="info-note"><span>ⓘ</span><span data-i18n="introNote">ქულა აღწერს პროდუქტის კვებით პროფილს და არა ჯანმრთელობის სარგებლის სამედიცინო პროცენტს.</span></div>
+      </section>
+
+      <section class="view" id="resultView" aria-live="polite" aria-label="Product result">
+        <div class="view-heading"><button class="back-btn" id="backFromResult" type="button">←</button><span data-i18n="resultHeader">პროდუქტის ანალიზი</span><button class="icon-btn" id="rescanBtn" aria-label="Scan another" type="button">▣</button></div>
+        <div id="resultBody"></div>
+      </section>
+
+      <section class="view" id="historyView"><div class="section-top"><div><span class="eyebrow" data-i18n="myScans">ჩემი სკანირებები</span><h1 data-i18n="history">ისტორია</h1></div><button id="clearHistory" type="button" class="link-btn" data-i18n="clearHistory">გასუფთავება</button></div><p class="supporting" data-i18n="localHistory">ისტორია ინახება მხოლოდ ამ მოწყობილობაზე.</p><div id="historyList" class="history-list"></div></section>
+
+      <section class="view" id="compareView"><div class="section-top"><div><span class="eyebrow" data-i18n="sideBySide">გვერდიგვერდ</span><h1 data-i18n="compare">შედარება</h1></div></div><p class="supporting" data-i18n="compareHelp">აირჩიე ორი ადრე დასკანირებული პროდუქტი მათი კვებითი მონაცემების სანახავად.</p><div class="compare-selectors"><label><span data-i18n="productA">პროდუქტი A</span><select id="compareA"></select></label><label><span data-i18n="productB">პროდუქტი B</span><select id="compareB"></select></label></div><div id="compareBody"></div></section>
+
+      <section class="view" id="aboutView"><div class="section-top"><div><span class="eyebrow" data-i18n="transparency">გამჭვირვალე მონაცემები</span><h1 data-i18n="about">აპლიკაციის შესახებ</h1></div></div><div class="about-card"><div class="about-icon">✳</div><h2 data-i18n="whyTitle">რას ნიშნავს შეფასება?</h2><p data-i18n="whyText">0–100 ვიზუალური ქულა მიიღება არსებული Nutri-Score კატეგორიის გარდაქმნით: A=90, B=70, C=50, D=30, E=10. ეს არ არის ჯანმრთელობის სარგებლის პროცენტი ან ინდივიდუალური სამედიცინო რეკომენდაცია.</p></div><div class="about-card"><div class="about-icon">⌕</div><h2 data-i18n="sourceTitle">საიდან მოდის მონაცემები?</h2><p data-i18n="sourceText">პროდუქტის ინფორმაცია მიიღება Open Food Facts-ის ღია მონაცემთა ბაზიდან. ინფორმაცია შეიძლება იყოს არასრული, არაზუსტი ან მოძველებული — შეადარე შეფუთვის ეტიკეტს.</p><a href="https://world.openfoodfacts.org/" target="_blank" rel="noopener noreferrer">Open Food Facts ↗</a></div><div class="about-card"><div class="about-icon">⊙</div><h2 data-i18n="privacyTitle">კონფიდენციალურობა</h2><p data-i18n="privacyText">სკანირებული კოდები იგზავნება Open Food Facts-ში პროდუქტის მოსაძებნად. სკანირების ისტორია ინახება ბრაუზერის მეხსიერებაში. ამ პროტოტიპს არ აქვს ანგარიში, რეკლამა ან მომხმარებლის ანალიტიკა.</p></div><p class="tiny-bottom">Data © Open Food Facts contributors · ODbL. Product images © contributors · CC BY-SA. FoodScope AI prototype.</p></section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navigation"><button type="button" data-view="home" class="nav-item current"><span>▣</span><small data-i18n="navScan">სკანერი</small></button><button type="button" data-view="history" class="nav-item"><span>◷</span><small data-i18n="navHistory">ისტორია</small></button><button type="button" data-view="compare" class="nav-item"><span>⇄</span><small data-i18n="navCompare">შედარება</small></button><button type="button" data-view="about" class="nav-item"><span>ⓘ</span><small data-i18n="navInfo">ინფო</small></button></nav>
+  </div>
+
+  <div id="cameraModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="cameraTitle"><div class="modal-panel"><div class="modal-heading"><strong id="cameraTitle" data-i18n="cameraTitle">კოდის მოძებნა</strong><button id="closeCamera" class="close-btn" type="button" aria-label="Close">✕</button></div><div class="video-frame"><video id="cameraVideo" autoplay muted playsinline></video><div class="video-target"><i></i><i></i><i></i><i></i><span></span></div></div><p class="camera-help" data-i18n="cameraHelp">მოათავსე შტრიხკოდი ჩარჩოში. კამერის წვდომა აუცილებელია.</p></div></div>
+  <div id="loadingModal" class="loading-overlay hidden" role="status"><div class="loading-card"><div class="loader"></div><strong data-i18n="loading">პროდუქტს ვეძებთ...</strong></div></div>
+  <div id="toast" class="toast hidden" role="alert"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
